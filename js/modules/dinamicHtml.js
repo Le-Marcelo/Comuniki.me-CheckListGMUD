@@ -1,5 +1,5 @@
 // Função para criar botões dinamicamente
-export function criarBotoes(dados, containerId) {
+export function criarBotoesCSV(dados, containerId) {
   //Checar se o container existe
   const container = document.getElementById(containerId);
   if (!container) {
