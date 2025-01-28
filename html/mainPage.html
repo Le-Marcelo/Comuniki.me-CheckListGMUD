@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
-
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Checklist da GMUD</title>
@@ -9,36 +8,55 @@
     <script type="module" src="/js/main.js"></script>
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/header.css" />
-
+    <link rel="stylesheet" href="/css/footer.css" />
   </head>
 
-  <header class="header">
-
-    <div class="logo">
-      <a href="">
-        <img src="/img/Logo-Comunikime.png">
-      </a>
-    </div>
-
-    <nav class="navbar">
-      <ul class="nav-links">
-        <li><a href="">Início</a></li>
-        <li><a href="#about">Sobre</a></li>
-        <li><a href="#services">Serviços</a></li>
-        <li><a href="#contact">Contato</a></li>
-      </ul>
-    </nav>
-
-    <button class="cta-button">Ação</button>
-
-  </header>
-
   <body>
+    <div class="wrapper">
+      <!--Cabeçalho-->
+      <header class="header">
+        <div class="logo">
+          <a href="">
+            <img src="/img/Logo-Comunikime.png" />
+          </a>
+        </div>
 
-    <h1>Selecione o cliente</h1>
-    <!--Container em que serão criados os botões com base no arquivo csv-->
-    <div id="botoes-container" class="botoes-container"></div>
+        <nav class="navbar">
+          <ul class="nav-links">
+            <li><a href="">Início</a></li>
+            <li><a href="#linkPendente">Documentação</a></li>
+          </ul>
+        </nav>
 
+        <button class="cta-button" onclick="">Administração</button>
+      </header>
+
+      <main class="content">
+        <h1>Selecione o cliente</h1>
+        <!--Container em que serão criados os botões com base no arquivo csv-->
+        <div id="botoes-container" class="botoes-container"></div>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-content">
+          <div class="footer-section about">
+            <h3>Sobre Nós</h3>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
+              lacinia odio vitae vestibulum vestibulum.
+            </p>
+          </div>
+          <div class="footer-section contact">
+            <h3>Contato</h3>
+            <p>Email: contato@empresa.com</p>
+            <p>Telefone: (11) 1234-5678</p>
+            <p>Endereço: Rua Exemplo, 123, São Paulo - SP</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 Minha Empresa. Todos os direitos reservados.</p>
+        </div>
+      </footer>
+    </div>
   </body>
-  
 </html>
