@@ -1,24 +1,21 @@
-import { carregarCSV, processarCSV } from './modules/dataReader.js';
-import { criarBotoesCSV } from './modules/dinamicHtml.js';
+import { subirCSV } from "./modules/dataReader.js";
+import { criarBotao } from "./modules/dinamicHtml.js";
 
 // URL dos arquivos CSV
 const CSVcliente = "/data/cliente.csv";
 const CSVsistema = "/data/sistema.csv";
+const CSVambiente = "/data/ambiente.csv";
 
 // Executar as funções
 (async () => {
-  try {
-    //Carregar, processar CSV e criar botões com base nas informações
-    const dadosCliente = processarCSV(await carregarCSV(CSVcliente));
-    const dadosSistema = processarCSV(await carregarCSV(CSVsistema));
-    criarBotoesCSV(dadosCliente, "botoes-cliente");
+    try {
+        //Carregar, processar CSV e criar botões com base nas informações
+        const dadosCliente = subirCSV(CSVcliente);
+        //const dadosSistema = processarCSV(await carregarCSV(CSVsistema));
+        //const dadosAmbiente = processarCSV(await carregarCSV(CSVambiente));
+        criarBotao(dadosCliente, "botoesCliente");
 
-    //EventListener para o modal fechar
-    document.getElementById("closeModal").addEventListener("click", () => {
-      document.getElementById("modal").style.display = "none";
-    });
-
-  } catch (erro) {
-    console.error(`Erro: ${erro.message}`);
-  }
+    } catch (erro) {
+        console.error(`Erro: ${erro.message}`);
+    }
 })();

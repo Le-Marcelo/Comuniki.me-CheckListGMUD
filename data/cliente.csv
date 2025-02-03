@@ -1,16 +1,16 @@
 id,nome,multiTenant
-0,Ailos,Não
-1,Atento,Sim
-2,Aval,Sim
-3,Bellinati,Sim
-4,Cobroactivo,Não
-5,Emdia,Sim
-6,Fiducial,Não
-7,Localcred,Não
-8,ML Gomes,Não
-9,Outsourcing,Não
-10,Paschoalotto,Sim
-11,Porto Seguro,Não
-12,Schulze,Sim
-13,TRC Taborda,Não
-14,Winover,Sim
+0,Ailos,FALSE
+1,Atento,TRUE
+2,Aval,TRUE
+3,Bellinati,TRUE
+4,Cobroactivo,FALSE
+5,Emdia,TRUE
+6,Fiducial,FALSE
+7,Localcred,FALSE
+8,ML Gomes,FALSE
+9,Outsourcing,FALSE
+10,Paschoalotto,TRUE
+11,Porto Seguro,FALSE
+12,Schulze,TRUE
+13,TRC Taborda,FALSE
+14,Winover,TRUE

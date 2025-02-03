@@ -1,35 +1,42 @@
-//TODO: Separar responsabilidades para apenas criação genérica de botoes com base em um CSV
-//Criar uma outra classe para alterar a função do botão
-
-// Função para criar botões dinamicamente
-export function criarBotoesCSV(dados, containerId) {
-  //Checar se o container existe
-  const container = document.getElementById(containerId);
-  if (!container) {
-    throw new Error(`Elemento com ID "${containerId}" não encontrado.`);
-  }
-
-  dados.forEach((dado) => {
-    const botao = document.createElement("button");
-    botao.textContent = dado.nome;
-
-    //Caso seja single tenant irá pular para a seleção de ambiente
-    if (dado.multiTenant == "Sim") {
-      botao.setAttribute("data-title", "Selecione o Sistema");
-      botao.setAttribute("data-content", 'Conteúdo do primeiro botão');
-    }else{
-      botao.setAttribute("data-title", "Selecione o Ambiente");
-      botao.setAttribute("data-content", "Conteúdo do primeiro botão");
+export function criarBotao(dados, containerId) {
+    //Checar se o container existe
+    const container = document.getElementById(containerId);
+    if (!container) {
+        throw new Error(`Elemento com ID "${containerId}" não encontrado.`);
     }
 
-    botao.addEventListener("click", () => {
-      const title = botao.getAttribute("data-title");
-      const content = botao.getAttribute("data-content");
+    dados.forEach((dado) => {
+        //Criação do botão e suas propriedades
+        const botao = document.createElement("button");
+        botao.textContent = dado.nome;
+        setFuncao(botao, containerId);
 
-      document.getElementById("modalTitle").textContent = title;
-      document.getElementById("modalContent").textContent = content;
-      document.getElementById("modal").style.display = "block";
+        //Inclusão do botão ao container
+        container.appendChild(botao);
     });
-    container.appendChild(botao);
-  });
+}
+
+function setFuncao(botao, tipo) {
+    //Funções dos botões
+    botao.addEventListener("click", function () {
+        switch (tipo) {
+            case "botoesCliente":
+                deletarBotoes("botoesSistema");
+                criarBotao()
+                break;
+            case "botoesSistema":
+                deletarBotoes("botoesAmbiente");
+                break;
+            case "botoesAmbiente":
+                //
+                break;
+            default:
+                //
+                break;
+        }
+    });
+}
+
+function deletarBotoes(tipo) {
+    document.getElementById(tipo).textContent = "";
 }
