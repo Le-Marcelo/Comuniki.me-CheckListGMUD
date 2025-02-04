@@ -1,64 +1,75 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Checklist da GMUD</title>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Checklist da GMUD</title>
 
-    <script type="module" src="/js/main.js"></script>
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="stylesheet" href="/css/header.css" />
-    <link rel="stylesheet" href="/css/footer.css" />
-  </head>
+        <script type="module" src="/js/main.js"></script>
+        <link rel="stylesheet" href="/css/style.css" />
+        <link rel="stylesheet" href="/css/header.css" />
+        <link rel="stylesheet" href="/css/footer.css" />
+        <link rel="stylesheet" href="/css/modal.css" />
+    </head>
 
-  <body>
-    <div class="wrapper">
-      <!--Cabeçalho-->
-      <header class="header">
-        <div class="logo">
-          <a href="">
-            <img src="/img/Logo-Comunikime.png" />
-          </a>
+    <body>
+        <div class="wrapper">
+            <!--Cabeçalho-->
+            <header class="header">
+                <div class="logo">
+                    <a href="">
+                        <img src="/img/Logo-Comunikime.png" />
+                    </a>
+                </div>
+
+                <nav class="navbar">
+                    <ul class="nav-links">
+                        <li><a href="">Início</a></li>
+                        <li><a href="#linkPendente">Documentação</a></li>
+                    </ul>
+                </nav>
+
+                <button class="cta-button" onclick="">Administração</button>
+            </header>
+
+            <main class="content">
+                <h1>Selecione o cliente</h1>
+                <!--Container em que serão criados os botões com base no arquivo csv-->
+                <div id="botoesCliente" class="botoes-container"></div>
+
+                <!--Modal da Seleção de Sistemas e Ambientes-->
+                <div id="modal" class="modal">
+                    <!-- Modal content -->
+                    <div id="modalContent" class="modal-content">
+                        <span id="modalClose" class="close">&times;</span>
+                        <p>Some text in the Modal..</p>
+                    </div>
+                </div>
+            </main>
+
+            <footer class="footer">
+                <div class="footer-content">
+                    <div class="footer-section about">
+                        <h3>Sobre Nós</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit. Vivamus lacinia odio vitae vestibulum
+                            vestibulum.
+                        </p>
+                    </div>
+                    <div class="footer-section contact">
+                        <h3>Contato</h3>
+                        <p>Email: contato@empresa.com</p>
+                        <p>Telefone: (11) 1234-5678</p>
+                        <p>Endereço: Rua Exemplo, 123, São Paulo - SP</p>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>
+                        &copy; 2025 Comunkiki.me. Todos os direitos reservados.
+                    </p>
+                </div>
+            </footer>
         </div>
-
-        <nav class="navbar">
-          <ul class="nav-links">
-            <li><a href="">Início</a></li>
-            <li><a href="#linkPendente">Documentação</a></li>
-          </ul>
-        </nav>
-
-        <button class="cta-button" onclick="">Administração</button>
-      </header>
-
-      <main class="content">
-        <h1>Selecione o cliente</h1>
-        <!--Container em que serão criados os botões com base no arquivo csv-->
-        <div id="botoesCliente" class="botoes-container"></div>
-        <div id="botoesSistema" class="botoes-container"></div>
-        <div id="botoesAmbiente" class="botoes-container"></div>
-      </main>
-
-      <footer class="footer">
-        <div class="footer-content">
-          <div class="footer-section about">
-            <h3>Sobre Nós</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
-              lacinia odio vitae vestibulum vestibulum.
-            </p>
-          </div>
-          <div class="footer-section contact">
-            <h3>Contato</h3>
-            <p>Email: contato@empresa.com</p>
-            <p>Telefone: (11) 1234-5678</p>
-            <p>Endereço: Rua Exemplo, 123, São Paulo - SP</p>
-          </div>
-        </div>
-        <div class="footer-bottom">
-          <p>&copy; 2025 Minha Empresa. Todos os direitos reservados.</p>
-        </div>
-      </footer>
-    </div>
-  </body>
+    </body>
 </html>

@@ -1,5 +1,5 @@
-import { subirCSV } from "./modules/dataReader.js";
-import { criarBotao } from "./modules/dinamicHtml.js";
+import { processarCSV, carregarCSV } from "./modules/dataReader.js";
+import { gerarEstrutura } from "./modules/structuregenerator.js";
 
 // URL dos arquivos CSV
 const CSVcliente = "/data/cliente.csv";
@@ -9,12 +9,17 @@ const CSVambiente = "/data/ambiente.csv";
 // Executar as funções
 (async () => {
     try {
-        //Carregar, processar CSV e criar botões com base nas informações
-        const dadosCliente = subirCSV(CSVcliente);
-        //const dadosSistema = processarCSV(await carregarCSV(CSVsistema));
-        //const dadosAmbiente = processarCSV(await carregarCSV(CSVambiente));
-        criarBotao(dadosCliente, "botoesCliente");
-
+        //Carregar, processar CSV e criar estrutura com base nas informações
+        const tabelaCliente = processarCSV(await carregarCSV(CSVcliente));
+        const tabelaSistema = processarCSV(await carregarCSV(CSVsistema));
+        const tabelaAmbiente = processarCSV(await carregarCSV(CSVambiente));
+        //Decidi criar um vetor de
+        const baseDeDados = [
+            { nome: "Cliente", tabela: tabelaCliente },     //0
+            { nome: "Sistema", tabela: tabelaSistema },     //1
+            { nome: "Ambiente", tabela: tabelaAmbiente },   //2
+        ];
+        gerarEstrutura(baseDeDados, "botoesCliente");
     } catch (erro) {
         console.error(`Erro: ${erro.message}`);
     }
