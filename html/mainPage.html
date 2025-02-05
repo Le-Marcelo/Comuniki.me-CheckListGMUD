@@ -6,10 +6,11 @@
         <title>Checklist da GMUD</title>
 
         <script type="module" src="/js/main.js"></script>
-        <link rel="stylesheet" href="/css/style.css" />
-        <link rel="stylesheet" href="/css/header.css" />
-        <link rel="stylesheet" href="/css/footer.css" />
-        <link rel="stylesheet" href="/css/modal.css" />
+        <link rel="stylesheet" href="/css/style.css"/>
+        <link rel="stylesheet" href="/css/header.css"/>
+        <link rel="stylesheet" href="/css/footer.css"/>
+        <link rel="stylesheet" href="/css/modal.css"/>
+        <link rel="stylesheet" href="/css/main.css"/>
     </head>
 
     <body>
@@ -17,7 +18,7 @@
             <!--Cabeçalho-->
             <header class="header">
                 <div class="logo">
-                    <a href="">
+                    <a href="/">
                         <img src="/img/Logo-Comunikime.png" />
                     </a>
                 </div>
@@ -29,9 +30,10 @@
                     </ul>
                 </nav>
 
-                <button class="cta-button" onclick="">Administração</button>
+                <button class="cta-button" onclick="window.location.href = '#linkPendente'">Administração</button>
             </header>
 
+            <!--Conteudo-->
             <main class="content">
                 <h1>Selecione o cliente</h1>
                 <!--Container em que serão criados os botões com base no arquivo csv-->
@@ -47,14 +49,13 @@
                 </div>
             </main>
 
+            <!--Rodapé-->
             <footer class="footer">
                 <div class="footer-content">
                     <div class="footer-section about">
-                        <h3>Sobre Nós</h3>
+                        <h3>Sobre</h3>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Vivamus lacinia odio vitae vestibulum
-                            vestibulum.
+                            Site criado com o intuito de agilizar e padronizar a criação de relatórios de validação pós GMUD.
                         </p>
                     </div>
                     <div class="footer-section contact">

@@ -1,14 +1,65 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checklist da GMUD</title>
-    <script type="module" src="/js/main.js"></script>
-    <link rel="stylesheet" href="/css/style.css">
-    
-</head>
-<body>
-    
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Checklist da GMUD</title>
+
+        <link rel="stylesheet" href="/css/style.css" />
+        <link rel="stylesheet" href="/css/header.css" />
+        <link rel="stylesheet" href="/css/footer.css" />
+    </head>
+    <body>
+        <div class="wrapper">
+            <!--Cabeçalho-->
+            <header class="header">
+                <div class="logo">
+                    <a href="/">
+                        <img src="/img/Logo-Comunikime.png" />
+                    </a>
+                </div>
+
+                <nav class="navbar">
+                    <ul class="nav-links">
+                        <li><a href="/">Início</a></li>
+                        <li><a href="#linkPendente">Documentação</a></li>
+                    </ul>
+                </nav>
+
+                <button
+                    class="cta-button"
+                    onclick="window.location.href = '#linkPendente'"
+                >
+                    Administração
+                </button>
+            </header>
+
+            <main class="content">
+                <!--TODO-->
+            </main>
+
+            <footer class="footer">
+                <div class="footer-content">
+                    <div class="footer-section about">
+                        <h3>Sobre</h3>
+                        <p>
+                            Site criado com o intuito de agilizar e padronizar a
+                            criação de relatórios de validação pós GMUD.
+                        </p>
+                    </div>
+                    <div class="footer-section contact">
+                        <h3>Contato</h3>
+                        <p>Email: contato@empresa.com</p>
+                        <p>Telefone: (11) 1234-5678</p>
+                        <p>Endereço: Rua Exemplo, 123, São Paulo - SP</p>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>
+                        &copy; 2025 Comunkiki.me. Todos os direitos reservados.
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </body>
 </html>

@@ -6,60 +6,19 @@
 }
 
 /* Garantindo que o layout ocupe toda a altura */
-html, body {
-  height: 100%;
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-}
-
-/* Wrapper principal */
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* Empurra o rodapé para baixo */
-  min-height: 100vh; /* Garante que o wrapper ocupe a altura total da tela */
-}
-
-/* Conteúdo principal */
-.content {
-  flex: 1; /* Faz o conteúdo crescer para preencher o espaço disponível */
-  padding: 20px;
-  text-align: center;
-}
-
-/* Estilo do rodapé */
-.footer {
-  background-color: #333;
-  color: white;
-  text-align: center;
-  padding: 10px 0;
-  font-size: 0.9rem;
-  position: relative;
-  width: 100%;
-}
-
 body {
+  height: 100%;
   font-family: "open sans",sans-serif;
+  background-color: #f9f9f9;
   text-align: center;
   background-color: #f8f9fa; /* Cor de fundo mais clara */
-  margin: 0;
-  padding: 0;
-}
+} 
 
 h1 {
   margin-top: 20px;
   font-size: 28px;
   font-weight: bold;
   color: #007bff;
-}
-
-.botoes-container {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px; /* Espaço entre os botões */
-  margin: 20px auto;
-  max-width: 1200px; /* Limita o tamanho máximo da área dos botões */
 }
 
 button {
@@ -71,6 +30,8 @@ button {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  flex: 1;
+  white-space: nowrap;
 }
 
 button:hover {
