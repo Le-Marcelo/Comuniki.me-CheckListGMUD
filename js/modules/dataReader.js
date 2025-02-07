@@ -1,16 +1,22 @@
+export async function subirCSV(url){
+    const i = await carregarCSV(url);
+    const j = processarCSV(i);
+    return await j;
+}
+
 // Função para carregar o CSV do servidor
-export async function carregarCSV(url) {
+async function carregarCSV(url) {
     const resposta = await fetch(url);
     if (!resposta.ok) {
         throw new Error(
             `Erro ao carregar o arquivo CSV: ${resposta.statusText}`
         );
     }
-    return await resposta.text();
+    return resposta.text();
 }
 
 // Função para processar o CSV e convertê-lo em um array de objetos
-export function processarCSV(csv) {
+function processarCSV(csv) {
     const linhas = csv
         .split("\n")
         .map((linha) => linha.trim())

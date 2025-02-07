@@ -1,4 +1,4 @@
-import { processarCSV, carregarCSV } from "./modules/dataReader.js";
+import { subirCSV } from "./modules/dataReader.js";
 import { gerarEstrutura } from "./modules/structuregenerator.js";
 
 // URL dos arquivos CSV
@@ -10,9 +10,9 @@ const CSVambiente = "/data/ambiente.csv";
 (async () => {
     try {
         //Carregar, processar CSV e criar estrutura com base nas informações
-        const tabelaCliente = processarCSV(await carregarCSV(CSVcliente));
-        const tabelaSistema = processarCSV(await carregarCSV(CSVsistema));
-        const tabelaAmbiente = processarCSV(await carregarCSV(CSVambiente));
+        const tabelaCliente = subirCSV(CSVcliente);
+        const tabelaSistema = subirCSV(CSVsistema);
+        const tabelaAmbiente = subirCSV(CSVambiente);
         //Decidi criar um vetor de
         const baseDeDados = [
             { nome: "Cliente", tabela: tabelaCliente },     //0

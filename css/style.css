@@ -21,6 +21,11 @@ h1 {
   color: #007bff;
 }
 
+h2 {
+  font-weight: bold;
+  color: #007bff;
+}
+
 button {
   background-color: #007bff;
   color: white;
@@ -30,8 +35,11 @@ button {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  flex: 1;
   white-space: nowrap;
+  width: 155px;
+  height: 50px;
+  overflow: hidden; /* Evita que textos longos expandam o botão */
+  text-overflow: ellipsis; /* Adiciona "..." se o texto for muito longo */
 }
 
 button:hover {

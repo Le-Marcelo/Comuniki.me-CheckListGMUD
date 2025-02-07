@@ -1,9 +1,13 @@
 const global = { baseDeDados: null };
 //Essa sequência de funções está aqui para ajudar na abstração da classe main
-export function gerarEstrutura(dados) {
+export async function gerarEstrutura(dados) {
     //Ao gerar estrutura é importado a base de dados da classe Main
-    global.baseDeDados = dados;
-
+    global.baseDeDados = await Promise.all(
+        dados.map(async (item) => ({
+            nome: item.nome,
+            tabela: await item.tabela, // Resolve cada Promise dentro do array
+        }))
+    );
     showClientes();
     setModal();
 }
@@ -27,8 +31,9 @@ function setModal() {
 }
 
 //Cria botões com base na tabela de clientes
-function showClientes() {
-    global.baseDeDados[0].tabela.forEach((linha) => {
+async function showClientes() {
+    const tabelaClientes = await global.baseDeDados[0].tabela;
+    tabelaClientes.forEach((linha) => {
         criarBotao(linha, "botoesCliente");
     });
 }
@@ -39,16 +44,6 @@ function showSistemas(cliente) {
         var idCliente = sistema.idCliente;
         if (cliente == parseInt(idCliente)) {
             criarBotao(sistema, "botoesSistema");
-        }
-    });
-}
-
-//Cria botões com base na tabela de ambientes
-function showAmbientes(sistema) {
-    global.baseDeDados[2].tabela.forEach((ambiente) => {
-        var idSistema = ambiente.idSistema;
-        if (sistema == parseInt(idSistema)) {
-            criarBotao(ambiente, "botoesAmbiente");
         }
     });
 }
@@ -80,31 +75,15 @@ function setFuncao(botao, tipo) {
         //Muda e exibe o modal dependendo de qual cliente foi selecionado
         case "botoesCliente":
             botao.addEventListener("click", function () {
-                changeModal(botao);
+                showModal(botao);
                 document.getElementById("modal").style.display = "block";
             });
             break;
 
-        //Exibe os ambientes relacionado ao sistema selecionado
+        //Redireciona à página para gerar o relatório
         case "botoesSistema":
             botao.addEventListener("click", function () {
-                if (!document.getElementById("botoesAmbiente")) {
-                    var conteudo = document.getElementById("modalContent");
-                    var div = document.createElement("div");
-                    div.id = "botoesAmbiente";
-                    div.classList.add("botoes-container");
-                    conteudo.appendChild(div);
-                }
-
-                var sistema = parseInt(botao.dataset.id);
-                showAmbientes(sistema);
-            });
-            break;
-
-        //Redireciona à página para gerar o relatório
-        case "botoesAmbiente":
-            botao.addEventListener("click", function () {
-                //TODO: Salvar dados relacionados ao cliente para altrar os campos do relatório (sessionStorage)
+                sessionStorage.setItem("idSistema", botao.dataset.id);
                 window.location.href = "/html/gerarRelatorio.html";
             });
             break;
@@ -114,21 +93,14 @@ function setFuncao(botao, tipo) {
     }
 }
 
-//Função para alterar o modal dependendo do botão clicado
-function changeModal(botao) {
+//Função para mostrar o modal
+function showModal(botao) {
     var conteudo = document.getElementById("modalContent");
 
-    if (botao.dataset.multiTenant == "TRUE") {
-        conteudo.innerHTML = `
+    conteudo.innerHTML = `
+            <h1>Selecione o Sistema</h1>
             <div id="botoesSistema" class="botoes-container"></div> 
         `;
-        var cliente = parseInt(botao.dataset.id);
-        showSistemas(cliente);
-    } else {
-        conteudo.innerHTML = `
-            <div id="botoesAmbiente" class="botoes-container"></div> 
-        `;
-        var sistema = parseInt(botao.dataset.id);
-        showAmbientes(sistema);
-    }
+    var cliente = parseInt(botao.dataset.id);
+    showSistemas(cliente);
 }
