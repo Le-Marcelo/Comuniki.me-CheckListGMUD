@@ -83,6 +83,7 @@ function setFuncao(botao, tipo) {
         //Redireciona à página para gerar o relatório
         case "botoesSistema":
             botao.addEventListener("click", function () {
+                sessionStorage.setItem("idCliente", botao.dataset.idCliente);
                 sessionStorage.setItem("idSistema", botao.dataset.id);
                 window.location.href = "/html/gerarRelatorio.html";
             });
