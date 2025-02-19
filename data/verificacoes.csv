@@ -1,13 +1,13 @@
-id,idCliente,nomeVerificacao
-0,-1,Status componentes ALM
-1,-1,Testes de discagem
-2,-1,Status DialerAdapter
-3,-1,Registros de gravações
-4,-1,Tela RTR
-5,-1,Status gateways
-6,-1,Status links
-7,-1,Status SIPProxy e Portais
-8,-1,CPU e Memoria servidores
-9,-1,Login UCC
-10,-1,Banco de dados
-11,0,Teste
+id,idCliente,multiAmbiente,nomeVerificacao
+0,-1,TRUE,Status componentes ALM
+1,-1,TRUE,Testes de discagem
+2,-1,TRUE,Status DialerAdapter
+3,-1,TRUE,Registros de gravações
+4,-1,FALSE,Tela RTR
+5,-1,FALSE,Status gateways
+6,-1,FALSE,Status links
+7,-1,FALSE,Status SIPProxy e Portais
+8,-1,FALSE,CPU e Memoria servidores
+9,-1,FALSE,Login UCC
+10,-1,FALSE,Banco de dados
+11,0,FALSE,Teste

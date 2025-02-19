@@ -1,7 +1,14 @@
 const global = { jsPDF: null, baseDeDados: null, selectedBox: null };
 
 export async function montarPDF(dados, jsPDF) {
-    global.baseDeDados = await dados;
+    //Ao gerar estrutura é importado a base de dados da classe Main
+    global.baseDeDados = await Promise.all(
+        dados.map(async (item) => ({
+            nome: item.nome,
+            tabela: await item.tabela, // Resolve cada Promise dentro do array
+        }))
+    );
+
     global.jsPDF = jsPDF;
     gerarCampos();
     setModal();
@@ -9,7 +16,7 @@ export async function montarPDF(dados, jsPDF) {
 
 function gerarCampos() {
     //Gerar formularios para cada especificação
-    global.baseDeDados.forEach((especificacao) => {
+    global.baseDeDados[3].tabela.forEach((especificacao) => {
         var idCliente = especificacao.idCliente;
         //Adiciona a página apenas caso a verificação seja universal (idCliente = -1) ou específica do cliente
         if (idCliente < 0 || idCliente == sessionStorage.getItem("idCliente")) {
@@ -33,9 +40,32 @@ function criarFormulario(containerId, especificacao) {
 
     //<label>Nome</label>
     const label = document.createElement("label");
+    label.style = "grid-area: label;";
     label.textContent = especificacao.nomeVerificacao;
     divContainer.appendChild(label);
 
+    //Caso seja multi ambiente adiciona as verificações de acordo
+    if (especificacao.multiAmbiente == "TRUE") {
+        var loop = 1;
+        global.baseDeDados[2].tabela.forEach((ambiente) => {
+            if (ambiente.idSistema == sessionStorage.getItem("idSistema")) {
+                const grid = "ambiente" + loop;
+                //<label>Ambiente X</label>
+                const label = document.createElement("label");
+                label.style = "grid-area: " + grid + ";";
+                label.textContent = String(ambiente.nome);
+                divContainer.appendChild(label);
+
+                criarImageBox(divContainer, especificacao);
+                loop++;
+            }
+        });
+    } else {
+        criarImageBox(divContainer, especificacao);
+    }
+}
+
+function criarImageBox(container, especificacao) {
     //<div class="image-box" onclick="openModal(this)">+ Adicionar Imagem</div>
     const div = document.createElement("div");
     div.classList.add("image-box");
@@ -46,7 +76,7 @@ function criarFormulario(containerId, especificacao) {
     for (var atributo in especificacao) {
         div.dataset[atributo] = especificacao[atributo];
     }
-    divContainer.appendChild(div);
+    container.appendChild(div);
 }
 
 //Criar modal através do JS
@@ -86,11 +116,11 @@ function setModal() {
     divDropArea.addEventListener("dragleave", () => {
         dropArea.style.borderColor = "#007bff";
     });
-    
+
     divDropArea.addEventListener("drop", (event) => {
         event.preventDefault();
         dropArea.style.borderColor = "#007bff";
-        
+
         const file = event.dataTransfer.files[0];
         if (file) {
             previewFile(file);

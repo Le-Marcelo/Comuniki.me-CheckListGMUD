@@ -35,7 +35,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 5px;
+    border-radius: 25px;
 }
 
 /* Modal */
@@ -81,5 +81,7 @@
 }
 
 .containerFormulario{
-    flex: 1;
+    display: grid;
+    grid-template-areas: "label label label" "ambiente1 ambiente2 ambiente3";
+    grid-gap: 10px;
   }

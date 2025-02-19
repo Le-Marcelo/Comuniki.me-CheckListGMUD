@@ -1,7 +1,7 @@
 id,nome,multiTenant
 0,Ailos,FALSE
 1,Atento,TRUE
-2,Aval,TRUE
+2,Aval,FALSE
 3,Bellinati,TRUE
 4,Cobroactivo,FALSE
 5,Emdia,TRUE
@@ -11,6 +11,6 @@ id,nome,multiTenant
 9,Outsourcing,FALSE
 10,Paschoalotto,TRUE
 11,Porto Seguro,FALSE
-12,Schulze,TRUE
+12,Schulze,FALSE
 13,TRC Taborda,FALSE
 14,Winover,TRUE

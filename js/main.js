@@ -15,33 +15,32 @@ const CSVverificacoes = "/data/verificacoes.csv";
         const caminho = window.location.pathname;
         const arquivo = caminho.substring(caminho.lastIndexOf("/") + 1);
 
-        switch(arquivo){
+        //Carregar, processar CSV e criar estrutura com base nas informações
+        const tabelaCliente = subirCSV(CSVcliente);
+        const tabelaSistema = subirCSV(CSVsistema);
+        const tabelaAmbiente = subirCSV(CSVambiente);
+        const tabelaVerificacoes = subirCSV(CSVverificacoes);
+
+        //Decidi criar um vetor das tabelas para simular a base de dados
+        const baseDeDados = [
+            { nome: "Cliente", tabela: tabelaCliente },         //0
+            { nome: "Sistema", tabela: tabelaSistema },         //1
+            { nome: "Ambiente", tabela: tabelaAmbiente },       //2
+            { nome: "Verificacao", tabela: tabelaVerificacoes },//3
+        ];
+
+        switch (arquivo) {
             //MainPage
             case "":
-                //Carregar, processar CSV e criar estrutura com base nas informações
-                const tabelaCliente = subirCSV(CSVcliente);
-                const tabelaSistema = subirCSV(CSVsistema);
-                const tabelaAmbiente = subirCSV(CSVambiente); 
-
-                //Decidi criar um vetor das tabelas para simular a base de dados
-                const baseDeDados = [
-                    { nome: "Cliente", tabela: tabelaCliente },     //0
-                    { nome: "Sistema", tabela: tabelaSistema },     //1
-                    { nome: "Ambiente", tabela: tabelaAmbiente },   //2
-                ];
                 gerarEstrutura(baseDeDados, "botoesCliente");
                 break;
-            
-            //GerarRelatorio    
-            case "gerarRelatorio.html":
-                //Carregar, processar CSV e criar estrutura com base nas informações
-                const tabelaVerificacoes = subirCSV(CSVverificacoes);
 
+            //GerarRelatorio
+            case "gerarRelatorio.html":
                 const { jsPDF } = window.jspdf;
-                montarPDF(tabelaVerificacoes, jsPDF);
+                montarPDF(baseDeDados, jsPDF);
                 break;
         }
-        
     } catch (erro) {
         console.error(`Erro: ${erro.message}`);
     }
