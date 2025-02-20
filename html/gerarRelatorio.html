@@ -40,16 +40,48 @@
 
             <!--Conteudo-->
             <main class="content">
-                <h1>
-                    Informe os dados que serão inclusos no relatório de GMUD.
-                </h1>
+                <h2>
+                    Informe os dados que serão inclusos no relatório de GMUD
+                </h2>
+
+                <!--Dados da atividade/Autor-->
+                <div>
+                    <label for="nomeCompleto">Nome Completo:</label>
+                    <input type="text" id="nomeCompleto" />
+
+                    <label for="observacoes">Observações:</label>
+                    <textarea id="observacoes"></textarea>
+                </div>
+
+                <!--Div para especificações padrões e customizadas-->
                 <div id="especificacoes" class="image-container"></div>
 
                 <!--Modal para inserção de imagem-->
                 <div id="imageModal" class="modal"></div>
 
+                <!--Caixa de consentimento-->
+                <div
+                    style="
+                        margin-top: 15px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    "
+                >
+                    <input type="checkbox" id="check" />
+                    <p for="check" style="max-width: 550px; margin-bottom: 0px">
+                        Declaro que todos os procedimentos necessários para a
+                        execução desta atividade foram devidamente compreendidos
+                        e realizados conforme as validações exigidas no processo
+                        da GMUD.
+                    </p>
+
+                </div>
+
                 <!--Botão para gerar o PDF-->
-                <!--TODO-->
+                <div>
+                    <button id="gerarPDF" disabled style="margin-top: 10px;">Gerar PDF</button>
+                </div>
             </main>
 
             <!--Rodapé-->

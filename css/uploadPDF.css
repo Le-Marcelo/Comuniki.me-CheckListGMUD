@@ -29,6 +29,7 @@
     margin: auto;
     margin-top: 5px;
     border-radius: 25px;
+    grid-area: image;
 }
 
 .image-box img {
@@ -82,6 +83,8 @@
 
 .containerFormulario{
     display: grid;
-    grid-template-areas: "label label label" "ambiente1 ambiente2 ambiente3";
+    grid-template-areas:    "label label label" 
+                            "ambiente1 ambiente2 ambiente3" 
+                            "image1 image2 image3";
     grid-gap: 10px;
   }

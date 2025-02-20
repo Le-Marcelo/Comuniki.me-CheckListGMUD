@@ -10,8 +10,11 @@ export async function montarPDF(dados, jsPDF) {
     );
 
     global.jsPDF = jsPDF;
+
     gerarCampos();
     setModal();
+    setCheckbox();
+    setBotao();
 }
 
 function gerarCampos() {
@@ -50,22 +53,23 @@ function criarFormulario(containerId, especificacao) {
         global.baseDeDados[2].tabela.forEach((ambiente) => {
             if (ambiente.idSistema == sessionStorage.getItem("idSistema")) {
                 const grid = "ambiente" + loop;
+
                 //<label>Ambiente X</label>
                 const label = document.createElement("label");
                 label.style = "grid-area: " + grid + ";";
                 label.textContent = String(ambiente.nome);
                 divContainer.appendChild(label);
 
-                criarImageBox(divContainer, especificacao);
+                criarImageBox(divContainer, especificacao, loop);
                 loop++;
             }
         });
     } else {
-        criarImageBox(divContainer, especificacao);
+        criarImageBox(divContainer, especificacao, 2);
     }
 }
 
-function criarImageBox(container, especificacao) {
+function criarImageBox(container, especificacao, grid) {
     //<div class="image-box" onclick="openModal(this)">+ Adicionar Imagem</div>
     const div = document.createElement("div");
     div.classList.add("image-box");
@@ -76,6 +80,7 @@ function criarImageBox(container, especificacao) {
     for (var atributo in especificacao) {
         div.dataset[atributo] = especificacao[atributo];
     }
+    div.style = "grid-area: image" + grid + ";";
     container.appendChild(div);
 }
 
@@ -217,9 +222,24 @@ function previewFile(file) {
     };
 }
 
-function gerarPDF(pdf) {
+function setBotao(){
+    const botao = document.getElementById("gerarPDF");
+    botao.addEventListener("click", function () {gerarPDF();});
+}
+
+function setCheckbox(){
+    const check = document.getElementById("check");
+    check.addEventListener("change", function () {
+        const botao = document.getElementById("gerarPDF");
+        botao.disabled = !this.checked;
+    });
+}
+
+function gerarPDF() {
+    console.log("hm");
     //TODO
-    const doc = new jsPDF();
+    const doc = new global.jsPDF();
     doc.text("Olá, este é um PDF gerado com jsPDF!", 10, 10);
     doc.save("meuDocumento.pdf");
 }
+
