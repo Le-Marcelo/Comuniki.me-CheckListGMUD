@@ -1,6 +1,7 @@
 import { subirCSV } from "./modules/dataReader.js";
-import { montarPDF } from "./modules/pdfGenerator.js";
+import { montarPDF } from "./modules/formGenerator.js";
 import { gerarEstrutura } from "./modules/structureGenerator.js";
+import { setPDFGen } from "./modules/pdfGenerator.js";
 
 // URL dos arquivos CSV
 const CSVcliente = "/data/cliente.csv";
@@ -38,7 +39,8 @@ const CSVverificacoes = "/data/verificacoes.csv";
             //GerarRelatorio
             case "gerarRelatorio.html":
                 const { jsPDF } = window.jspdf;
-                montarPDF(baseDeDados, jsPDF);
+                montarPDF(baseDeDados);
+                setPDFGen(jsPDF);
                 break;
         }
     } catch (erro) {

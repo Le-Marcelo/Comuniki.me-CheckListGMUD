@@ -13,6 +13,11 @@
     font-size: 1.5rem;
     font-weight: bold;
     cursor: pointer;
+    
+}
+
+.logo img{
+    max-width: 200px;
 }
 
 /* Navegação */

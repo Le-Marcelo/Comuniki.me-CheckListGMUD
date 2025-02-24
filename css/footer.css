@@ -20,6 +20,16 @@
   width: 100%;
 }
 
+.footer p {
+  color: white;
+  text-align: center;
+}
+
+.footer h3 {
+  color: white;
+  text-align: center;
+}
+
 .footer-content {
   display: flex;
   justify-content: space-between;

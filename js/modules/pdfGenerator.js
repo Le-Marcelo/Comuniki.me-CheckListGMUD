@@ -1,245 +1,185 @@
-const global = { jsPDF: null, baseDeDados: null, selectedBox: null };
+const global = { jsPDF: null };
 
-export async function montarPDF(dados, jsPDF) {
-    //Ao gerar estrutura é importado a base de dados da classe Main
-    global.baseDeDados = await Promise.all(
-        dados.map(async (item) => ({
-            nome: item.nome,
-            tabela: await item.tabela, // Resolve cada Promise dentro do array
-        }))
-    );
-
+export async function setPDFGen(jsPDF) {
     global.jsPDF = jsPDF;
-
-    gerarCampos();
-    setModal();
-    setCheckbox();
     setBotao();
 }
 
-function gerarCampos() {
-    //Gerar formularios para cada especificação
-    global.baseDeDados[3].tabela.forEach((especificacao) => {
-        var idCliente = especificacao.idCliente;
-        //Adiciona a página apenas caso a verificação seja universal (idCliente = -1) ou específica do cliente
-        if (idCliente < 0 || idCliente == sessionStorage.getItem("idCliente")) {
-            criarFormulario("especificacoes", especificacao);
-        }
-    });
-}
-
-//Cria um formulário através do JS
-function criarFormulario(containerId, especificacao) {
-    //Checar se o container existe
-    const container = document.getElementById(containerId);
-    if (!container) {
-        throw new Error(`Elemento com ID "${containerId}" não encontrado.`);
-    }
-
-    //<div class="containerFormulario">
-    const divContainer = document.createElement("div");
-    divContainer.classList = "containerFormulario";
-    container.appendChild(divContainer);
-
-    //<label>Nome</label>
-    const label = document.createElement("label");
-    label.style = "grid-area: label;";
-    label.textContent = especificacao.nomeVerificacao;
-    divContainer.appendChild(label);
-
-    //Caso seja multi ambiente adiciona as verificações de acordo
-    if (especificacao.multiAmbiente == "TRUE") {
-        var loop = 1;
-        global.baseDeDados[2].tabela.forEach((ambiente) => {
-            if (ambiente.idSistema == sessionStorage.getItem("idSistema")) {
-                const grid = "ambiente" + loop;
-
-                //<label>Ambiente X</label>
-                const label = document.createElement("label");
-                label.style = "grid-area: " + grid + ";";
-                label.textContent = String(ambiente.nome);
-                divContainer.appendChild(label);
-
-                criarImageBox(divContainer, especificacao, loop);
-                loop++;
-            }
-        });
-    } else {
-        criarImageBox(divContainer, especificacao, 2);
-    }
-}
-
-function criarImageBox(container, especificacao, grid) {
-    //<div class="image-box" onclick="openModal(this)">+ Adicionar Imagem</div>
-    const div = document.createElement("div");
-    div.classList.add("image-box");
-    div.addEventListener("click", function () {
-        openModal(div);
-    });
-    div.textContent = "+ Adicionar Imagem";
-    for (var atributo in especificacao) {
-        div.dataset[atributo] = especificacao[atributo];
-    }
-    div.style = "grid-area: image" + grid + ";";
-    container.appendChild(div);
-}
-
-//Criar modal através do JS
-function setModal() {
-    const container = document.getElementById("imageModal");
-
-    //<div class="modal-content">
-    const divModalContent = document.createElement("div");
-    divModalContent.classList.add("modal-content");
-    container.appendChild(divModalContent);
-
-    //<span class="close" onclick="closeModal()">&times;</span>
-    const span = document.createElement("span");
-    span.classList.add("close");
-    span.addEventListener("click", function () {
-        closeModal();
-    });
-    span.innerHTML = "&times;";
-    divModalContent.appendChild(span);
-
-    //<h2>Inserir Imagem</h2>
-    const h2 = document.createElement("h2");
-    h2.textContent = "Inserir Imagem";
-    divModalContent.appendChild(h2);
-
-    //<div id="dropArea" class="drop-area">
-    const divDropArea = document.createElement("div");
-    divDropArea.id = "dropArea";
-    divDropArea.classList.add("drop-area");
-    // Capturar evento de clique para abrir o input file
-    divDropArea.addEventListener("click", () => fileInput.click());
-    // Arrastar e soltar arquivos no modal
-    divDropArea.addEventListener("dragover", (event) => {
-        event.preventDefault();
-        dropArea.style.borderColor = "#0056b3";
-    });
-    divDropArea.addEventListener("dragleave", () => {
-        dropArea.style.borderColor = "#007bff";
-    });
-
-    divDropArea.addEventListener("drop", (event) => {
-        event.preventDefault();
-        dropArea.style.borderColor = "#007bff";
-
-        const file = event.dataTransfer.files[0];
-        if (file) {
-            previewFile(file);
-        }
-    });
-    divModalContent.appendChild(divDropArea);
-
-    //<p>Arraste e solte uma imagem aqui, clique ou cole uma imagem (Ctrl + V)</p>
-    const p = document.createElement("p");
-    p.textContent =
-        "Arraste e solte uma imagem aqui, clique ou cole uma imagem (Ctrl + V)";
-    divDropArea.appendChild(p);
-
-    //<input type="file" id="fileInput" accept="image/*" hidden>
-    const input = document.createElement("input");
-    input.type = "file";
-    input.id = "fileInput";
-    input.accept = "image/*";
-    input.hidden = true;
-    // Capturar evento de mudança no input file
-    input.addEventListener("change", function () {
-        const file = this.files[0];
-        if (file) {
-            previewFile(file);
-        }
-    });
-    divDropArea.appendChild(input);
-
-    //<img id="preview" class="preview" style="display: none;">
-    const img = document.createElement("img");
-    img.id = "preview";
-    img.classList.add("preview");
-    img.style = "display: none;";
-    divDropArea.appendChild(img);
-
-    //<button onclick="confirmImage()">Confirmar</button>
-    const button = document.createElement("button");
-    button.textContent = "Confirmar";
-    button.addEventListener("click", function () {
-        confirmImage();
-    });
-    divModalContent.appendChild(button);
-
-    // Permitir colar imagens no modal
-    document.addEventListener("paste", function (event) {
-        const modal = document.getElementById("imageModal");
-        if (modal.style.display === "flex") {
-            const clipboardItems = event.clipboardData.items;
-            for (let item of clipboardItems) {
-                if (item.type.startsWith("image/")) {
-                    const file = item.getAsFile();
-                    previewFile(file);
-                    break;
-                }
-            }
-        }
-    });
-}
-
-//Exibe o Modal
-function openModal(imageBox) {
-    global.selectedBox = imageBox;
-    const preview = document.getElementById("preview");
-    preview.style.display = "none";
-    const fileInput = document.getElementById("fileInput");
-    fileInput.value = "";
-    const modal = document.getElementById("imageModal");
-    modal.style.display = "flex";
-}
-
-// Confirmar a imagem e inseri-la na área selecionada
-function confirmImage() {
-    if (preview.src) {
-        global.selectedBox.innerHTML = "";
-        const img = document.createElement("img");
-        img.src = preview.src;
-        global.selectedBox.appendChild(img);
-    }
-    closeModal();
-}
-
-function closeModal() {
-    const modal = document.getElementById("imageModal");
-    modal.style.display = "none";
-}
-
-// Função para visualizar a imagem selecionada
-function previewFile(file) {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function (e) {
-        preview.src = e.target.result;
-        preview.style.display = "block";
-    };
-}
-
-function setBotao(){
+function setBotao() {
     const botao = document.getElementById("gerarPDF");
-    botao.addEventListener("click", function () {gerarPDF();});
-}
-
-function setCheckbox(){
-    const check = document.getElementById("check");
-    check.addEventListener("change", function () {
-        const botao = document.getElementById("gerarPDF");
-        botao.disabled = !this.checked;
+    botao.addEventListener("click", function () {
+        gerarPDF();
     });
 }
 
 function gerarPDF() {
-    console.log("hm");
-    //TODO
     const doc = new global.jsPDF();
-    doc.text("Olá, este é um PDF gerado com jsPDF!", 10, 10);
-    doc.save("meuDocumento.pdf");
+
+    //Adiciona a primeira página sendo a "capa"
+    adicionarCapa(doc);
+
+    //Adiciona o conteúdo principal ao PDF
+    adicionarEvidencias(doc);
+
+    //Adiciona as observações finais
+    adicionarObservacoes(doc);
+
+    // Adicionar cabeçalho e rodapé
+    adicionarCabecalhoRodape(doc);
+
+    // Salvar o PDF
+    doc.save("teste.pdf");
 }
 
+function adicionarCapa(doc) {
+    const img = document.getElementById("logo");
+    adicionarImagem(doc, img, 60, 50, 90, 30);
+
+    doc.line(20, 85, 190, 85, "S");
+
+    doc.setFontSize(20);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor("#000000");
+    doc.text("Pós Atividade", 105, 100, { align: "center" });
+
+    doc.setFontSize(16);
+    doc.text("Autor do Documento:", 20, 190);
+
+    const nomeAutor = document.getElementById("nomeCompleto").value;
+    doc.setFont("helvetica", "normal");
+    doc.text(nomeAutor, 80, 190);
+
+    doc.setFont("helvetica", "bold");
+    doc.text("Data do Documento:", 20, 200);
+
+    const agora = new Date();
+    const data =
+        agora.getDate() +
+        "/" +
+        (agora.getMonth() + 1) +
+        "/" +
+        agora.getFullYear();
+    doc.setFont("helvetica", "normal");
+    doc.text(data, 78, 200);
+}
+
+function adicionarEvidencias(doc) {
+    const evidencias = document.querySelectorAll(".image-box");
+    var pageSpace = 0;
+    var y = 0;
+    var ambiente = 1;
+
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+
+    evidencias.forEach((evidencia) => {
+        //Inclui apenas campos preenchidos
+        if (evidencia.firstChild.src) {
+            const img = evidencia.firstChild;
+
+            //Define qual espaço será utilizado da página
+            if (pageSpace == 0) {
+                doc.addPage();
+                y = 30;
+                pageSpace++;
+                
+            } else {
+                y = 150;
+                pageSpace--;
+            }
+
+            const nomeVerificacao = evidencia.dataset.nomeVerificacao;
+            doc.text(nomeVerificacao, 105, y, { align: "center" });
+
+            //Caso seja multi ambiente imprimir qual é
+            if (evidencia.dataset.multiAmbiente == "TRUE") {
+                const listaDeChildren = evidencia.parentElement.children;
+                const label = listaDeChildren[ambiente].textContent;
+                doc.text(label, 105, (y + 5), { align: "center" });
+                if(ambiente >= 5){
+                    ambiente = 1;
+                }else{
+                    ambiente += 2;
+                }
+            }
+
+            adicionarImagem(doc, img, 20, (y + 10), 170, 96);
+
+        }
+    });
+}
+
+function adicionarObservacoes(doc) {
+    doc.addPage();
+    doc.text("Observações", 105, 30, {align: "center"});
+
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    const observacao = document.getElementById("observacoes").value;
+    doc.text(observacao,20, 40, {align: "justify", maxWidth: 169});
+}
+
+//Função para adicionar o Cabeçalho e rodapé em todas as páginas
+function adicionarCabecalhoRodape(doc) {
+    const totalPaginas = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= totalPaginas; i++) {
+        //Ignorar capa
+        if (i == 1) {
+            continue;
+        }
+
+        doc.setPage(i);
+
+        // Cabeçalho
+        //Logo
+        const img = document.getElementById("logo");
+        adicionarImagem(doc, img, 20, 10, 30, 10);
+
+        //Titulo
+        doc.setFontSize(16);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor("#ed1923");
+        doc.text("Relatório da GMUD", 105, 17, { align: "center" });
+
+        //Data
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor("#000000");
+        const agora = new Date();
+        const data =
+            agora.getDate() +
+            "/" +
+            (agora.getMonth() + 1) +
+            "/" +
+            agora.getFullYear();
+        doc.text("Gerado em: " + data, 190, 17, { align: "right" });
+
+        // Rodapé com numeração de páginas
+        doc.setFontSize(10);
+        doc.text(`Página ${i - 1} de ${totalPaginas - 1}`, 190, 290, {
+            align: "right",
+        });
+    }
+}
+
+//Função para converter imagem para Base64
+function convertImageToBase64(img) {
+    // Cria um canvas com as mesmas dimensões da imagem
+    const canvas = document.createElement("canvas");
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+
+    const ctx = canvas.getContext("2d");
+
+    // Desenha a imagem no canvas
+    ctx.drawImage(img, 0, 0);
+
+    // Converte o conteúdo do canvas para uma string Base64
+    return canvas.toDataURL("image/png");
+}
+
+//Função para adicionar imagem a página
+function adicionarImagem(doc, img, x, y, width, height) {
+    const imgBase64 = convertImageToBase64(img);
+    doc.addImage(imgBase64, "PNG", x, y, width, height, "", "FAST"); // 'FAST' mantém a qualidade
+}
