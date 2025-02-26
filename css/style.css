@@ -1,0 +1,154 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Garantindo que o layout ocupe toda a altura */
+body {
+  height: 100%;
+  font-family: "open sans",sans-serif;
+  background-color: #f9f9f9;
+  text-align: center;
+  background-color: #f8f9fa; /* Cor de fundo mais clara */
+} 
+
+h1 {
+  margin-top: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+h2 {
+  font-weight: bold;
+  color: #007bff;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  white-space: nowrap;
+  width: 155px;
+  height: 50px;
+  overflow: hidden; /* Evita que textos longos expandam o botão */
+}
+
+button:disabled, button :disabled hover {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: translateY(-5px); /* Leve elevação ao passar o mouse */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .nav-links {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-links li {
+    margin: 5px 0;
+  }
+
+  .cta-button {
+    margin-top: 10px;
+  }
+}
+
+/* Estilo para inputs de texto e textarea */
+input[type="text"],
+textarea {
+    width: 100%;
+    max-width: 550px;
+    padding: 10px;
+    margin: 8px 0;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease-in-out;
+    background-color: #f8f8f8;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Efeito ao focar */
+input[type="text"]:focus,
+textarea:focus {
+    border-color: #007bff;
+    background-color: #fff;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
+/* Ajustes para textarea */
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Estilo para labels */
+label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Estilo para h2 */
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #007bff;
+  margin-bottom: 15px;
+  text-transform: capitalize;
+}
+
+/* Estilo para h3 */
+h3 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+
+/* Estilo para checkbox */
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  cursor: pointer;
+  accent-color: #00ff73;
+  transition: all 0.2s ease-in-out;
+}
+
+input[type="checkbox"]:hover {
+  transform: scale(1.1);
+}
+
+input[type="checkbox"]:checked {
+  border-color: #007bff;
+}
+
+/* Estilo para p */
+p {
+  font-size: 16px;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 10px;
+  text-align: justify;
+}

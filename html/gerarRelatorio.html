@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Checklist da GMUD</title>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        <script type="module" src="/js/main.js"></script>
+        <link rel="stylesheet" href="/css/style.css" />
+        <link rel="stylesheet" href="/css/header.css" />
+        <link rel="stylesheet" href="/css/footer.css" />
+        <link rel="stylesheet" href="/css/main.css" />
+        <link rel="stylesheet" href="/css/uploadPDF.css" />
+    </head>
+    <body>
+        <div class="wrapper">
+            <!--Cabeçalho-->
+            <header class="header">
+                <div class="logo">
+                    <a href="/">
+                        <img id="logo" src="/img/Logo-Comunikime.png" />
+                    </a>
+                </div>
+
+                <nav class="navbar">
+                    <ul class="nav-links">
+                        <li><a href="/">Início</a></li>
+                        <li><a href="#linkPendente">Documentação</a></li>
+                    </ul>
+                </nav>
+
+                <button
+                    class="cta-button"
+                    onclick="window.location.href = '#linkPendente'"
+                >
+                    Administração
+                </button>
+            </header>
+
+            <!--Conteudo-->
+            <main class="content">
+                <h2>
+                    Informe os dados que serão inclusos no relatório de pós atividade
+                </h2>
+
+                <!--Dados da atividade/Autor-->
+                <div>
+                    <label for="nomeCompleto">Nome do Autor: <span class="required">*</span></label>
+                    <input type="text" id="nomeCompleto" />
+
+                    <label for="observacoes">Observações:</label>
+                    <textarea id="observacoes"></textarea>
+                </div>
+
+                <!--Div para especificações padrões e customizadas-->
+                <div id="especificacoes" class="image-container"></div>
+
+                <!--Modal para inserção de imagem-->
+                <div id="imageModal" class="modal"></div>
+
+                <!--Caixa de consentimento-->
+                <div
+                    style="
+                        margin-top: 15px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    "
+                >
+                    <span class="required">*</span>
+                    <input type="checkbox" id="check" />
+                    <p for="check" style="max-width: 550px; margin-bottom: 0px">Declaro que todos os procedimentos necessários para a execução desta atividade foram devidamente compreendidos e realizados conforme as validações exigidas no processo da GMUD.</p>
+
+                </div>
+
+                <!--Botão para gerar o PDF-->
+                <div>
+                    <button id="gerarPDF" disabled style="margin-top: 10px;">Gerar PDF</button>
+                </div>
+                <div id="inserirNome" style="display: none;" class="required">
+                    Insira o seu nome acima.
+                </div>
+            </main>
+
+            <!--Rodapé-->
+            <footer class="footer">
+                <div class="footer-content">
+                    <div class="footer-section about">
+                        <h3>Sobre</h3>
+                        <p>
+                            Site criado com o intuito de agilizar e padronizar a
+                            criação de relatórios de validação pós GMUD.
+                        </p>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>
+                        &copy; 2025 Comuniki.me. Todos os direitos reservados.
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>

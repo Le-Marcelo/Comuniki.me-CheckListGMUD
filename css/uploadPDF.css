@@ -1,0 +1,95 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilização da área de inserção */
+.image-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 50px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.image-box {
+    width: 175px;
+    height: 150px;
+    border: 2px dashed #007bff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-align: center;
+    color: #007bff;
+    margin: auto;
+    margin-top: 5px;
+    border-radius: 25px;
+    grid-area: image;
+}
+
+.image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 25px;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+}
+
+.close {
+    float: right;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.drop-area {
+    border: 2px dashed #007bff;
+    padding: 20px;
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.preview {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+}
+
+.containerFormulario {
+    display: grid;
+    grid-template-areas:
+        "label label label"
+        "ambiente1 ambiente2 ambiente3"
+        "image1 image2 image3";
+    grid-gap: 10px;
+}
+
+.required {
+    color: red;
+}

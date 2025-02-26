@@ -1,0 +1,23 @@
+/* Wrapper principal */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Empurra o rodapé para baixo */
+    min-height: 100vh; /* Garante que o wrapper ocupe a altura total da tela */
+}
+
+/* Conteúdo principal */
+.content {
+    flex: 1; /* Faz o conteúdo crescer para preencher o espaço disponível */
+    padding: 20px;
+    text-align: center;
+}
+
+.botoes-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px; /* Espaço entre os botões */
+  margin: 20px auto;
+  max-width: 1200px; /* Limita o tamanho máximo da área dos botões */
+}
