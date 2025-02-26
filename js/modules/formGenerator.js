@@ -44,8 +44,19 @@ function criarFormulario(containerId, especificacao) {
     label.textContent = especificacao.nomeVerificacao;
     divContainer.appendChild(label);
 
+    var multiAmbiente = false;
+
+    global.baseDeDados[1].tabela.forEach((sistema) => {
+        if (
+            sistema.id == sessionStorage.getItem("idSistema") &&
+            sistema.multiAmbiente == "TRUE"
+        ) {
+            multiAmbiente = true;
+        }
+    });
+
     //Caso seja multi ambiente adiciona as verificações de acordo
-    if (especificacao.multiAmbiente == "TRUE") {
+    if (especificacao.multiAmbiente == "TRUE" && multiAmbiente == true) {
         var loop = 1;
         global.baseDeDados[2].tabela.forEach((ambiente) => {
             if (ambiente.idSistema == sessionStorage.getItem("idSistema")) {

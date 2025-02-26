@@ -39,7 +39,6 @@ button {
   width: 155px;
   height: 50px;
   overflow: hidden; /* Evita que textos longos expandam o botão */
-  text-overflow: ellipsis; /* Adiciona "..." se o texto for muito longo */
 }
 
 button:disabled, button :disabled hover {

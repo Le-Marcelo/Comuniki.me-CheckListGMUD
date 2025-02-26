@@ -10,4 +10,4 @@ id,idCliente,multiAmbiente,nomeVerificacao
 8,-1,FALSE,CPU e Memoria servidores
 9,-1,FALSE,Login UCC
 10,-1,FALSE,Banco de dados
-11,0,FALSE,Teste
+11,3,TRUE,Agentes Virtuais

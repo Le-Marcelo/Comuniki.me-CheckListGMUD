@@ -40,7 +40,7 @@ const CSVverificacoes = "/data/verificacoes.csv";
             case "gerarRelatorio.html":
                 const { jsPDF } = window.jspdf;
                 montarPDF(baseDeDados);
-                setPDFGen(jsPDF);
+                setPDFGen(baseDeDados, jsPDF);
                 break;
         }
     } catch (erro) {

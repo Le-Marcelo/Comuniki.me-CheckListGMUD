@@ -81,10 +81,15 @@
     margin-top: 10px;
 }
 
-.containerFormulario{
+.containerFormulario {
     display: grid;
-    grid-template-areas:    "label label label" 
-                            "ambiente1 ambiente2 ambiente3" 
-                            "image1 image2 image3";
+    grid-template-areas:
+        "label label label"
+        "ambiente1 ambiente2 ambiente3"
+        "image1 image2 image3";
     grid-gap: 10px;
-  }
+}
+
+.required {
+    color: red;
+}

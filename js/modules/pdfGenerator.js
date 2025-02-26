@@ -1,6 +1,12 @@
-const global = { jsPDF: null };
+const global = { baseDeDados: null , jsPDF: null };
 
-export async function setPDFGen(jsPDF) {
+export async function setPDFGen(dados, jsPDF) {
+    global.baseDeDados = await Promise.all(
+        dados.map(async (item) => ({
+            nome: item.nome,
+            tabela: await item.tabela, // Resolve cada Promise dentro do array
+        }))
+    );
     global.jsPDF = jsPDF;
     setBotao();
 }
@@ -8,7 +14,15 @@ export async function setPDFGen(jsPDF) {
 function setBotao() {
     const botao = document.getElementById("gerarPDF");
     botao.addEventListener("click", function () {
-        gerarPDF();
+        const nome = document.getElementById("nomeCompleto").value;
+        const textoErro = document.getElementById("inserirNome");
+        if(nome != ""){
+            textoErro.style = "display: none;"
+            gerarPDF();
+        }else{
+            textoErro.style = "display: block;"
+        }
+        
     });
 }
 
@@ -22,45 +36,89 @@ function gerarPDF() {
     adicionarEvidencias(doc);
 
     //Adiciona as observações finais
-    adicionarObservacoes(doc);
+    const observacao = document.getElementById("observacoes").value;
+    if (observacao != "") {
+        adicionarObservacoes(doc, observacao);
+    }
 
     // Adicionar cabeçalho e rodapé
     adicionarCabecalhoRodape(doc);
 
     // Salvar o PDF
-    doc.save("teste.pdf");
+    var nomeDoCliente = "";
+    global.baseDeDados[0].tabela.some((cliente) => {
+        var idCliente = cliente.id;
+        if (idCliente == sessionStorage.getItem("idCliente")) {
+            nomeDoCliente = cliente.nome;
+            return true;
+        }
+        return false;
+    });
+    const nomeArquivo = diaDeHoje(true) + "_RelatorioPosAtividade_" + nomeDoCliente;
+    doc.save(nomeArquivo);
 }
 
 function adicionarCapa(doc) {
+    //Logo
     const img = document.getElementById("logo");
     adicionarImagem(doc, img, 60, 50, 90, 30);
 
+    //Linha
     doc.line(20, 85, 190, 85, "S");
 
+    //Título
     doc.setFontSize(20);
     doc.setFont("helvetica", "bold");
     doc.setTextColor("#000000");
     doc.text("Pós Atividade", 105, 100, { align: "center" });
 
+    //Cliente
+    var nomeDoCliente = "";
+    global.baseDeDados[0].tabela.some((cliente) => {
+        var idCliente = cliente.id;
+        if (idCliente == sessionStorage.getItem("idCliente")) {
+            nomeDoCliente = cliente.nome;
+            return true;
+        }
+        return false;
+    });
+    
+    doc.text(nomeDoCliente, 105, 150, { align: "center" });
+
+    //Sistema
+    var nomeDoSistema = "";
+    global.baseDeDados[1].tabela.some((sistema) => {
+        var idSistema = sistema.id;
+        if (idSistema == sessionStorage.getItem("idSistema")) {
+            nomeDoSistema = sistema.nome;
+            return true;
+        }
+        return false;
+    });
+
+    doc.text("Sistema: " + nomeDoSistema, 105, 160, { align: "center" });
+
+    //Autor
     doc.setFontSize(16);
-    doc.text("Autor do Documento:", 20, 190);
+    doc.text("Autor do Documento:", 20, 230);
 
     const nomeAutor = document.getElementById("nomeCompleto").value;
     doc.setFont("helvetica", "normal");
-    doc.text(nomeAutor, 80, 190);
+    doc.text(nomeAutor, 80, 230);
 
+    //Data
     doc.setFont("helvetica", "bold");
-    doc.text("Data do Documento:", 20, 200);
+    doc.text("Data do Documento:", 20, 240);
 
-    const agora = new Date();
-    const data =
-        agora.getDate() +
-        "/" +
-        (agora.getMonth() + 1) +
-        "/" +
-        agora.getFullYear();
     doc.setFont("helvetica", "normal");
-    doc.text(data, 78, 200);
+    doc.text(diaDeHoje(false), 78, 240);
+
+    //Assinatura
+    const assinatura = document.getElementById("check").nextElementSibling.textContent;
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(12);
+    doc.text(assinatura,20, 250, { align: "justify", maxWidth: 169 });
+    
 }
 
 function adicionarEvidencias(doc) {
@@ -82,7 +140,6 @@ function adicionarEvidencias(doc) {
                 doc.addPage();
                 y = 30;
                 pageSpace++;
-                
             } else {
                 y = 150;
                 pageSpace--;
@@ -92,31 +149,52 @@ function adicionarEvidencias(doc) {
             doc.text(nomeVerificacao, 105, y, { align: "center" });
 
             //Caso seja multi ambiente imprimir qual é
-            if (evidencia.dataset.multiAmbiente == "TRUE") {
+            var multiAmbiente = false;
+
+            global.baseDeDados[1].tabela.forEach(sistema => {
+                if(sistema.id == sessionStorage.getItem("idSistema") && sistema.multiAmbiente == "TRUE"){
+                    multiAmbiente = true;
+                }
+            });
+
+            if (evidencia.dataset.multiAmbiente == "TRUE" && multiAmbiente == true) {
                 const listaDeChildren = evidencia.parentElement.children;
                 const label = listaDeChildren[ambiente].textContent;
-                doc.text(label, 105, (y + 5), { align: "center" });
-                if(ambiente >= 5){
+                doc.text(label, 105, y + 5, { align: "center" });
+                if (ambiente >= 5) {
                     ambiente = 1;
-                }else{
+                } else {
                     ambiente += 2;
                 }
             }
 
-            adicionarImagem(doc, img, 20, (y + 10), 170, 96);
-
+            adicionarImagem(doc, img, 20, y + 10, 170, 96);
         }
     });
 }
 
-function adicionarObservacoes(doc) {
-    doc.addPage();
-    doc.text("Observações", 105, 30, {align: "center"});
+//Adiciona as observações podendo adicionar páginas conforme o tamanho do texto
+function adicionarObservacoes(doc, observacao) {
+    var tamanho = observacao.length;
+    var loop = 0
+    do {
+        doc.addPage();
+        doc.text("Observações", 105, 30, { align: "center" });
 
-    doc.setFontSize(12);
-    doc.setFont('helvetica', 'normal');
-    const observacao = document.getElementById("observacoes").value;
-    doc.text(observacao,20, 40, {align: "justify", maxWidth: 169});
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "normal");
+        const inicio = parseInt(3150 * loop);
+        const fim = parseInt(inicio + 3150);
+        console.log("Início: " + inicio + ", Fim: " + fim);
+        const trecho = observacao.slice(inicio, fim);
+        doc.text(trecho, 30, 40, { align: "justify", maxWidth: 149 });
+
+        if(tamanho > 3150){
+            tamanho -= 3150;
+            loop++;
+        }
+
+    } while (tamanho > 3150);
 }
 
 //Função para adicionar o Cabeçalho e rodapé em todas as páginas
@@ -145,14 +223,10 @@ function adicionarCabecalhoRodape(doc) {
         doc.setFontSize(12);
         doc.setFont("helvetica", "normal");
         doc.setTextColor("#000000");
-        const agora = new Date();
-        const data =
-            agora.getDate() +
-            "/" +
-            (agora.getMonth() + 1) +
-            "/" +
-            agora.getFullYear();
-        doc.text("Gerado em: " + data, 190, 17, { align: "right" });
+        doc.text("Gerado em: " + diaDeHoje(false), 190, 17, { align: "right" });
+
+        //Linha
+        doc.line(20, 22, 190, 22, "S");
 
         // Rodapé com numeração de páginas
         doc.setFontSize(10);
@@ -181,5 +255,45 @@ function convertImageToBase64(img) {
 //Função para adicionar imagem a página
 function adicionarImagem(doc, img, x, y, width, height) {
     const imgBase64 = convertImageToBase64(img);
+
+    const aspectRatio = img.naturalWidth / img.naturalHeight;
+    const targetRatio = 16 / 9;
+
+    // Caso a proporção for diferente de 16:9, ajustamos
+    if(Math.abs(aspectRatio - targetRatio) > 0.01){
+        
+        if (aspectRatio > targetRatio) {
+            // A imagem é mais "larga" que 16:9, ajustamos a largura e cortamos altura
+            height = width / aspectRatio;
+        } else {
+            // A imagem é mais "alta" que 16:9, ajustamos a altura e cortamos largura
+            width = height * aspectRatio;
+        }
+    }
+
     doc.addImage(imgBase64, "PNG", x, y, width, height, "", "FAST"); // 'FAST' mantém a qualidade
+}
+
+function diaDeHoje(nomeArquivo){
+    const agora = new Date();
+    var data = "";
+    var dia = agora.getDate().toString();
+    if(dia.length == 1){
+        dia = "0" + dia;
+    }
+    var mes = (agora.getMonth() + 1).toString();
+    if(mes.length == 1){
+        mes = "0" + mes;
+    }
+
+    const ano = agora.getFullYear();
+
+    if(nomeArquivo == true){
+        data = ano + "_" + mes + "_" + dia;
+    }else{
+        data = dia + "/" + mes + "/" + ano;
+    }
+    
+
+    return data;
 }
