@@ -1,3 +1,12 @@
+/*
+---<Data>--------
+Fevereiro/2025
+---<Autor>-------
+Marcelo Temporini - Estagiário de Suporte
+---<Descrição>---
+Arquivo .js para carregar as informações armazenadas em "/data"
+*/
+
 export async function subirCSV(url){
     const i = await carregarCSV(url);
     const j = processarCSV(i);

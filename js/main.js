@@ -1,3 +1,13 @@
+/*
+---<Data>--------
+Fevereiro/2025
+---<Autor>-------
+Marcelo Temporini - Estagiário de Suporte
+---<Descrição>---
+Arquivo .js para modularizar as funções do site utilizando o ES6, 
+aqui está a lógica para definir qual fluxo uilizar baseado na página atual
+*/
+
 import { subirCSV } from "./modules/dataReader.js";
 import { montarPDF } from "./modules/formGenerator.js";
 import { gerarEstrutura } from "./modules/structureGenerator.js";
@@ -24,10 +34,10 @@ const CSVverificacoes = "/data/verificacoes.csv";
 
         //Decidi criar um vetor das tabelas para simular a base de dados
         const baseDeDados = [
-            { nome: "Cliente", tabela: tabelaCliente },         //0
-            { nome: "Sistema", tabela: tabelaSistema },         //1
-            { nome: "Ambiente", tabela: tabelaAmbiente },       //2
-            { nome: "Verificacao", tabela: tabelaVerificacoes },//3
+            { nome: "Cliente", tabela: tabelaCliente },             //0
+            { nome: "Sistema", tabela: tabelaSistema },             //1
+            { nome: "Ambiente", tabela: tabelaAmbiente },           //2
+            { nome: "Verificacao", tabela: tabelaVerificacoes },    //3
         ];
 
         switch (arquivo) {

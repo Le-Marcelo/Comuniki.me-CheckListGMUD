@@ -1,3 +1,12 @@
+/*
+---<Data>--------
+Fevereiro/2025
+---<Autor>-------
+Marcelo Temporini - Estagiário de Suporte
+---<Descrição>---
+Arquivo .js para gerar o arquivo .pdf a partir das informações passadas na página
+*/
+
 const global = { baseDeDados: null , jsPDF: null };
 
 export async function setPDFGen(dados, jsPDF) {
@@ -11,6 +20,7 @@ export async function setPDFGen(dados, jsPDF) {
     setBotao();
 }
 
+//Configura a função do botão
 function setBotao() {
     const botao = document.getElementById("gerarPDF");
     botao.addEventListener("click", function () {
@@ -26,6 +36,7 @@ function setBotao() {
     });
 }
 
+//Formatação do PDF
 function gerarPDF() {
     const doc = new global.jsPDF();
 
@@ -58,6 +69,7 @@ function gerarPDF() {
     doc.save(nomeArquivo);
 }
 
+//Formatação da Capa
 function adicionarCapa(doc) {
     //Logo
     const img = document.getElementById("logo");
@@ -121,6 +133,7 @@ function adicionarCapa(doc) {
     
 }
 
+//Formatação das Evidências
 function adicionarEvidencias(doc) {
     const evidencias = document.querySelectorAll(".image-box");
     var pageSpace = 0;
@@ -274,6 +287,7 @@ function adicionarImagem(doc, img, x, y, width, height) {
     doc.addImage(imgBase64, "PNG", x, y, width, height, "", "FAST"); // 'FAST' mantém a qualidade
 }
 
+//Função para formatar o dia atual
 function diaDeHoje(nomeArquivo){
     const agora = new Date();
     var data = "";

@@ -1,5 +1,13 @@
+/*
+---<Data>--------
+Fevereiro/2025
+---<Autor>-------
+Marcelo Temporini - Estagiário de Suporte
+---<Descrição>---
+Arquivo .js para gerar a página "mainPage" dinâmicamente
+*/
+
 const global = { baseDeDados: null };
-//Essa sequência de funções está aqui para ajudar na abstração da classe main
 export async function gerarEstrutura(dados) {
     //Ao gerar estrutura é importado a base de dados da classe Main
     global.baseDeDados = await Promise.all(

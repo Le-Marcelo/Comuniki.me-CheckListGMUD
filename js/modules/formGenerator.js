@@ -1,3 +1,12 @@
+/*
+---<Data>--------
+Fevereiro/2025
+---<Autor>-------
+Marcelo Temporini - Estagiário de Suporte
+---<Descrição>---
+Arquivo .js para gerar a página "gerarRelatório" dinâmicamente
+*/
+
 const global = { baseDeDados: null, selectedBox: null };
 
 export async function montarPDF(dados) {
@@ -77,6 +86,7 @@ function criarFormulario(containerId, especificacao) {
     }
 }
 
+//Criar as ImageBoxes através do JS
 function criarImageBox(container, especificacao, grid) {
     //<div class="image-box" onclick="openModal(this)">+ Adicionar Imagem</div>
     const div = document.createElement("div");
@@ -230,6 +240,7 @@ function previewFile(file) {
     };
 }
 
+//Configura a função do checkbox
 function setCheckbox() {
     const check = document.getElementById("check");
     check.addEventListener("change", function () {

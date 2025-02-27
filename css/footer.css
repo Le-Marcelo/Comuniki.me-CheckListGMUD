@@ -1,3 +1,12 @@
+/*
+---<Data>--------
+Fevereiro/2025
+---<Autor>-------
+Marcelo Temporini - Estagiário de Suporte
+---<Descrição>---
+Arquivo .css para definição de estilo do rodapé
+*/
+
 .wrapper {
   display: flex;
   flex-direction: column;
