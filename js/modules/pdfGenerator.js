@@ -50,6 +50,7 @@ function gerarPDF() {
     const observacao = document.getElementById("observacoes").value;
     if (observacao != "") {
         adicionarObservacoes(doc, observacao);
+        console.log(observacao);
     }
 
     // Adicionar cabeçalho e rodapé
@@ -200,7 +201,7 @@ function adicionarObservacoes(doc, observacao) {
         const fim = parseInt(inicio + 3150);
         console.log("Início: " + inicio + ", Fim: " + fim);
         const trecho = observacao.slice(inicio, fim);
-        doc.text(trecho, 30, 40, { align: "justify", maxWidth: 149 });
+        doc.text(trecho, 30, 40, { align: "left,", maxWidth: 149 });
 
         if(tamanho > 3150){
             tamanho -= 3150;
