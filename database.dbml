@@ -1,0 +1,29 @@
+table cliente {
+  id integer [pk]
+  nome varchar
+  multiTenant bool
+}
+
+table sistema {
+  id integer [pk]
+  idCliente integer 
+  nome varchar
+  multiAmbiente bool
+}
+
+table ambiente {
+  id integer [pk]
+  idSistema integer
+  nome varchar
+}
+
+table verificacoes {
+  id integer [pk]
+  idCliente integer
+  multiAmbiente bool
+  nomeVerificacao varchar
+}
+
+Ref: sistema.idCliente > cliente.id
+Ref: verificacoes.idCliente > cliente.id
+Ref: ambiente.idSistema > sistema.id
