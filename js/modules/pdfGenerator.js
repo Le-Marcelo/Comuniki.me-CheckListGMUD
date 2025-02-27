@@ -7,6 +7,12 @@ Marcelo Temporini - Estagiário de Suporte
 Arquivo .js para gerar o arquivo .pdf a partir das informações passadas na página
 */
 
+/*
+  Utiliza a biblioteca jsPDF (https://github.com/parallax/jsPDF)
+  Copyright (c) 2010-2024 Parallax, Inc.
+  Licenciado sob a licença MIT (https://opensource.org/licenses/MIT)
+*/
+
 const global = { baseDeDados: null , jsPDF: null };
 
 export async function setPDFGen(dados, jsPDF) {
