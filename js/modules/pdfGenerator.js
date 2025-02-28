@@ -199,7 +199,6 @@ function adicionarObservacoes(doc, observacao) {
         doc.setFont("helvetica", "normal");
         const inicio = parseInt(3150 * loop);
         const fim = parseInt(inicio + 3150);
-        console.log("Início: " + inicio + ", Fim: " + fim);
         const trecho = observacao.slice(inicio, fim);
         doc.text(trecho, 30, 40, { align: "left,", maxWidth: 149 });
 
