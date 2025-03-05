@@ -185,8 +185,6 @@ function adicionarEvidencias(doc) {
             });
 
             if (evidencia.dataset.multiAmbiente == "TRUE" && multiAmbiente == true) {
-                //const listaDeChildren = evidencia.parentElement.children;
-                //const label = listaDeChildren[ambiente].textContent;
                 const label = document.querySelector(`label[for="${evidencia.id}"]`);
                 doc.text(label.textContent, 105, y + 5, { align: "center" });
             }
