@@ -7,7 +7,7 @@ Marcelo Temporini - Estagiário de Suporte
 Arquivo .js para gerar a página "gerarRelatório" dinâmicamente
 */
 
-const global = { baseDeDados: null, selectedBox: null };
+const global = { baseDeDados: null, selectedBox: null, idIncremental: 0 };
 
 export async function montarPDF(dados) {
     //Ao gerar estrutura é importado a base de dados da classe Main
@@ -73,6 +73,7 @@ function criarFormulario(containerId, especificacao) {
 
                 //<label>Ambiente X</label>
                 const label = document.createElement("label");
+                label.setAttribute("for", global.idIncremental);
                 label.style = "grid-area: " + grid + ";";
                 label.textContent = String(ambiente.nome);
                 divContainer.appendChild(label);
@@ -94,6 +95,8 @@ function criarImageBox(container, especificacao, grid) {
     div.addEventListener("click", function () {
         openModal(div);
     });
+    div.id = global.idIncremental;
+    global.idIncremental++;
     div.textContent = "+ Adicionar Imagem";
     for (var atributo in especificacao) {
         div.dataset[atributo] = especificacao[atributo];
