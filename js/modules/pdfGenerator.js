@@ -1,6 +1,6 @@
 /*
 ---<Data>--------
-Fevereiro/2025
+Março/2025
 ---<Autor>-------
 Marcelo Temporini - Estagiário de Suporte
 ---<Descrição>---
@@ -31,8 +31,19 @@ function setBotao() {
     const botao = document.getElementById("gerarPDF");
     botao.addEventListener("click", function () {
         const nome = document.getElementById("nomeCompleto").value;
-        const textoErro = document.getElementById("inserirNome");
-        if(nome != ""){
+        var anotacoes = true;
+        const textoErro = document.getElementById("inserirDados");
+        
+        global.baseDeDados[4].tabela.forEach(anotacao => {
+            if (anotacao.idSistema == sessionStorage.idSistema){
+                const checkbox = document.getElementById("check" + anotacao.id);
+                if(!checkbox.checked){
+                    anotacoes = false;
+                }
+            }
+        });
+    
+        if(nome != "" && anotacoes){
             textoErro.style = "display: none;"
             gerarPDF();
         }else{

@@ -1,6 +1,6 @@
 /*
 ---<Data>--------
-Fevereiro/2025
+Março/2025
 ---<Autor>-------
 Marcelo Temporini - Estagiário de Suporte
 ---<Descrição>---
@@ -21,6 +21,7 @@ export async function montarPDF(dados) {
     gerarCampos();
     setModal();
     setCheckbox();
+    setNotes();
 }
 
 function gerarCampos() {
@@ -249,5 +250,48 @@ function setCheckbox() {
     check.addEventListener("change", function () {
         const botao = document.getElementById("gerarPDF");
         botao.disabled = !this.checked;
+    });
+}
+
+function setNotes(){
+    const notes = document.getElementById("sticky-note");
+    document.addEventListener("scroll", () => {
+        var scrollPosition = window.scrollY + 140; // Ajuste para ficar deslocado do topo
+        notes.style.top = scrollPosition + "px";
+    });
+    
+    global.baseDeDados[4].tabela.forEach(anotacao => {
+        if (anotacao.idSistema == sessionStorage.idSistema){
+            notes.style.display = "block";
+            criarAnotacao(notes, anotacao);
+        }
+    });
+}
+
+function criarAnotacao(container, anotacao){
+    const id = "check" + anotacao.id
+
+    //<div style= "display: flex;">
+    const div = document.createElement("div");
+    div.style = "display: flex; margin-top: 5px";
+    container.appendChild(div);
+
+    //<input type="checkbox" id=anotacao.id >
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = id;
+    checkbox.style = "flex-shrink: 0;"
+    div.appendChild(checkbox);
+
+    //<label for=anotacao.id> </label>
+    const label = document.createElement("label");
+    label.htmlFor = id;
+    const descricao = document.createTextNode(anotacao.descricao);
+    label.style = "font-weight: normal; cursor: pointer; text-align: left; max-width: 180px;"; 
+    label.appendChild(descricao);
+    div.appendChild(label);
+
+    checkbox.addEventListener("change", function () {
+        label.style.textDecoration = this.checked ? "line-through" : "none";
     });
 }
