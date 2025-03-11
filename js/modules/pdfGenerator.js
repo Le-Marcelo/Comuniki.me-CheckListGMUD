@@ -7,6 +7,12 @@ Marcelo Temporini - Estagiário de Suporte
 Arquivo .js para gerar o arquivo .pdf a partir das informações passadas na página
 */
 
+/*
+  Utiliza a biblioteca jsPDF (https://github.com/parallax/jsPDF)
+  Copyright (c) 2010-2024 Parallax, Inc.
+  Licenciado sob a licença MIT (https://opensource.org/licenses/MIT)
+*/
+
 const global = { baseDeDados: null , jsPDF: null };
 
 export async function setPDFGen(dados, jsPDF) {
@@ -50,7 +56,6 @@ function gerarPDF() {
     const observacao = document.getElementById("observacoes").value;
     if (observacao != "") {
         adicionarObservacoes(doc, observacao);
-        console.log(observacao);
     }
 
     // Adicionar cabeçalho e rodapé
@@ -66,7 +71,16 @@ function gerarPDF() {
         }
         return false;
     });
-    const nomeArquivo = diaDeHoje(true) + "_RelatorioPosAtividade_" + nomeDoCliente;
+    var nomeDoSistema = "";
+    global.baseDeDados[1].tabela.some((sistema) => {
+        var idSistema = sistema.id;
+        if (idSistema == sessionStorage.getItem("idSistema")) {
+            nomeDoSistema = sistema.nome;
+            return true;
+        }
+        return false;
+    });
+    const nomeArquivo = diaDeHoje(true) + "_RelatorioPosAtividade_" + nomeDoCliente + "_" + nomeDoSistema;
     doc.save(nomeArquivo);
 }
 
@@ -139,7 +153,6 @@ function adicionarEvidencias(doc) {
     const evidencias = document.querySelectorAll(".image-box");
     var pageSpace = 0;
     var y = 0;
-    var ambiente = 1;
 
     doc.setFontSize(14);
     doc.setFont("helvetica", "bold");
@@ -172,14 +185,8 @@ function adicionarEvidencias(doc) {
             });
 
             if (evidencia.dataset.multiAmbiente == "TRUE" && multiAmbiente == true) {
-                const listaDeChildren = evidencia.parentElement.children;
-                const label = listaDeChildren[ambiente].textContent;
-                doc.text(label, 105, y + 5, { align: "center" });
-                if (ambiente >= 5) {
-                    ambiente = 1;
-                } else {
-                    ambiente += 2;
-                }
+                const label = document.querySelector(`label[for="${evidencia.id}"]`);
+                doc.text(label.textContent, 105, y + 5, { align: "center" });
             }
 
             adicionarImagem(doc, img, 20, y + 10, 170, 96);
@@ -200,7 +207,7 @@ function adicionarObservacoes(doc, observacao) {
         const inicio = parseInt(3150 * loop);
         const fim = parseInt(inicio + 3150);
         const trecho = observacao.slice(inicio, fim);
-        doc.text(trecho, 30, 40, { align: "left,", maxWidth: 149 });
+        doc.text(trecho, 30, 40, { align: "left", maxWidth: 149 });
 
         if(tamanho > 3150){
             tamanho -= 3150;
