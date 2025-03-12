@@ -1,6 +1,6 @@
 /*
 ---<Data>--------
-Fevereiro/2025
+Março/2025
 ---<Autor>-------
 Marcelo Temporini - Estagiário de Suporte
 ---<Descrição>---
@@ -18,6 +18,7 @@ const CSVcliente = "/data/cliente.csv";
 const CSVsistema = "/data/sistema.csv";
 const CSVambiente = "/data/ambiente.csv";
 const CSVverificacoes = "/data/verificacoes.csv";
+const CSVanotacoes = "/data/anotacoes.csv";
 
 // Executar as funções
 (async () => {
@@ -31,6 +32,7 @@ const CSVverificacoes = "/data/verificacoes.csv";
         const tabelaSistema = subirCSV(CSVsistema);
         const tabelaAmbiente = subirCSV(CSVambiente);
         const tabelaVerificacoes = subirCSV(CSVverificacoes);
+        const tabelaAnotacoes = subirCSV(CSVanotacoes);
 
         //Decidi criar um vetor das tabelas para simular a base de dados
         const baseDeDados = [
@@ -38,6 +40,7 @@ const CSVverificacoes = "/data/verificacoes.csv";
             { nome: "Sistema", tabela: tabelaSistema },             //1
             { nome: "Ambiente", tabela: tabelaAmbiente },           //2
             { nome: "Verificacao", tabela: tabelaVerificacoes },    //3
+            { nome: "Anotacao", tabela: tabelaAnotacoes }           //4
         ];
 
         switch (arquivo) {

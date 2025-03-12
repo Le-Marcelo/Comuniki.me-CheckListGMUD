@@ -1,6 +1,6 @@
 /*
 ---<Data>--------
-Fevereiro/2025
+Março/2025
 ---<Autor>-------
 Marcelo Temporini - Estagiário de Suporte
 ---<Descrição>---
@@ -101,4 +101,38 @@ Arquivo .css para definição da página de upload de evidências
 
 .required {
     color: red;
+    margin-top: 5px;
+}
+
+#sticky-note {
+    font-weight: bold;
+    left: 20px;
+    top: 140px;
+    width: 250px;
+    padding: 20px;
+    background: #c2c1d0;
+    border: 1px solid #00000042;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    transition: top 0.5s ease-out;
+    position: absolute;
+
+    /* Criando um corte no canto superior direito */
+    clip-path: polygon(0% 0%, 85% 0%, 100.00% 33px, 100% 100%, 0% 100%);
+
+    word-wrap: break-word; /* Garante que palavras longas sejam quebradas */
+    overflow-wrap: break-word; /* Alternativa moderna */
+    white-space: normal; /* Permite que o texto quebre a linha */
+
+}
+
+#sticky-note::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 36px;
+    height: 32px;
+    background: linear-gradient(225deg, #ebeaf2 40%, #8d8c99 60%);
+    clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
+    box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.2);
 }

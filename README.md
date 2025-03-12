@@ -20,6 +20,7 @@ Site feito com a ideia de padronizar os arquivos de pós atividade e ao mesmo te
 │  ├── uploadPDF.css
 ├── data
 │  ├── ambiente.csv
+│  ├── anotacoes.csv
 │  ├── cliente.csv
 │  ├── sistema.csv
 │  ├── verificacoes.csv
@@ -30,12 +31,12 @@ Site feito com a ideia de padronizar os arquivos de pós atividade e ao mesmo te
 │  ├── Logo-Comunikime.png
 │  ├── dbml.png
 ├── js
-│   ├── modules
-│   │   ├── dataReader.js
-│   │   ├── formGenerator.js
-│   │   ├── pdfGenerator.js
-│   │   ├── structureGenerator.js
-│   ├── main.js
+    ├── modules
+    │   ├── dataReader.js
+    │   ├── formGenerator.js
+    │   ├── pdfGenerator.js
+    │   ├── structureGenerator.js
+    ├── main.js
 ````
 
 ### Estrutura da "base de dados"
