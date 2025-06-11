@@ -43,6 +43,51 @@ Site feito com a ideia de padronizar os arquivos de pós atividade e ao mesmo te
 
 ![Estrutura da base de dados](/img/dbml.png "Estrutura da base de dados")
 
+## Como Adicionar/Atualizar/Remover informações
+
+Para adicionar, atualizar ou remover qualquer informação (seja cliente, sistema, ambiente etc.) será necessário criar, alterar ou remover a linha no arquivo .csv correspondente e em todos os outros que tenham alguma dependência.
+
+### Exemplo 1: Criar um novo Cliente que possua apenas um ambiente
+
+**1. Adicione a linha no arquivo *cliente.csv*:**
+   
+| id    | nome          | multiTenant |
+| :---: | :-----------: | :---------: |
+| 3     | nomeDoCliente | FALSE       |
+
+**2. Adicione a linha no arquivo *sistema.csv*:**
+
+| id    | idCliente | nome          | multiAmbiente |
+| :---: | :-------: | :----------:  | :-----------: |
+| 6     | 3         | nomeDoSistema | FALSE         |
+
+**3. Adicione a linha no arquivo *ambiente.csv*:**
+
+| id     | idSistema | nome           |
+| :----: | :-------: | :------------: |
+| 12     | 6         | nomeDoAmbiente |
+
+**Observações:**
+
+Vale ressaltar que os *IDs* devem ser únicos e estar corretamente correlacionados para evitar inconsistências.
+
+### Exemplo 2: Adicionar verificações adicionais (customizações) em um cliente específico
+
+**1. Adicionar a linha no arquivo *verificacoes.csv*:**
+
+| id    | idCliente | muliAmbiente  | nomeVerificacao  |
+| :---: | :-------: | :----------:  | :--------------: |
+| 15    | 3         | FALSE         | nomeCustomizacao |
+
+**Observações:**
+
+O mesmo processo serve para anotações.
+
+### Exemplo 3: Remover algum cliente
+
+**1. Só existe um passo aqui porém é bem importante:**
+Apague a linha do cliente em questão no arquivo *cliente.csv* e em **todos** os arquivos em que esse cliente e seus sistemas são referenciados (É importante para evitar manter uma base desatualizada).
+
 ## Autor
 
 [Marcelo Temporini](https://github.com/Le-Marcelo)
